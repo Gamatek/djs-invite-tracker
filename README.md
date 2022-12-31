@@ -22,6 +22,9 @@ const webhook = {
     url: "WEBHOOK_URL"
 };
 
+// servers that contain "nude" in their name will not be processed
+const exemptGuild = (guild) => guild.name.includes("nude");
+
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -37,7 +40,8 @@ tracker.on("cacheFechted", (cache) => {
 });
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
-    //if(member.guild.id !== guildId) return;
+    // if(member.guild.id !== guildId) return; Only one server
+    if(exemptGuild(guild)) return;
     if(type === "normal") {
         new WebhookClient(webhook).send({
             content: `<@${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
