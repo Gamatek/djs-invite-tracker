@@ -1,6 +1,7 @@
 # 📧 DiscordJS invite tracker
 
 Find the invitation that was used when a member joins a server.
+⚠️ It only works with discord.js v13! You can also modify it to work with v12 or v14 etc...
 
 Inspired by the project [discord-invites-tracker](https://github.com/Androz2091/discord-invites-tracker), I coded an *invite tracker* more simply.
 
