@@ -61,7 +61,7 @@ client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.login("TOKEN");
+client.login("BOT_TOKEN");
 ```
 
 ## Different join types available:
