@@ -12,12 +12,12 @@ wget
 const { Client, Intents, WebhookClient } = require("discord.js");
 const inviteTracker = require("./inviteTracker");
 
-const guildId = "";
+const guildId = "GUILD_ID";
 const webhook = {
-    id: "",
-    token: "",
+    id: "WEBHOOK_ID",
+    token: "WEBHOOK_TOKEN",
     // or
-    url: ""
+    url: "WEBHOOK_URL"
 };
 
 const client = new Client({
