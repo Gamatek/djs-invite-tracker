@@ -39,8 +39,8 @@ tracker.on("cacheFechted", (cache) => {
 });
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
-    // if(member.guild.id !== guildId) return; Only one server
-    if(exemptGuild(guild)) return;
+    if(member.guild.id !== guildId) return; // If you want with single server
+    if(exemptGuild(guild)) return; // If you want with more server
     if(type === "normal") {
         new WebhookClient(webhook).send({
             content: `<@${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
