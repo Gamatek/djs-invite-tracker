@@ -5,7 +5,7 @@ Inspired by the project [discord-invites-tracker](https://github.com/Androz2091/
 
 ## Installation
 ```bash
-wget https://raw.githubusercontent.com/Gamatek/djs-invite-tracker/main/inviteTracker.js
+git clone https://raw.githubusercontent.com/Gamatek/djs-invite-tracker.git
 ```
 
 ## Example
