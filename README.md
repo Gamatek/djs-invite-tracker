@@ -76,7 +76,7 @@ client.on("ready", () => {
 client.login("BOT_TOKEN");
 ```
 
-## Example with Discord.JS v14
+## Example with Discord.JS v14
 ```js
 const { Client, IntentsBitField, WebhookClient } = require("discord.js");
 const inviteTracker = require("./inviteTracker");
