@@ -11,14 +11,7 @@ git clone https://github.com/Gamatek/djs-invite-tracker.git
 
 ## Example tracker
 ```js
-const guildId = "GUILD_ID";
-
-// Servers that contain "nude" in their name will not be processed
-const exemptGuild = (guild) => guild.name.includes("nude");
-
 tracker.on("guildMemberAdd", (member, type, invite) => {
-    if(member.guild.id !== guildId) return; // If you want with single server
-    if(exemptGuild(guild)) return; // If you want with more server
     if(type === "normal") {
         new WebhookClient(webhook).send({
             content: `<@${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
@@ -36,6 +29,23 @@ tracker.on("guildMemberAdd", (member, type, invite) => {
             content: `<@${member.id}> has just joined, but I can't find out who invited him.`
         });
     };
+});
+
+// Signle server
+const guildId = "GUILD_ID";
+
+tracker.on("guildMemberAdd", (member, type, invite) => {
+    if(member.guild.id !== guildId) return;
+    ...
+});
+
+// More servers
+
+const exemptGuild = (guild) => guild.name.includes("nude"); // Servers that contain "nude" in their name will not be processed.
+
+tracker.on("guildMemberAdd", (member, type, invite) => {
+    if(exemptGuild(guild)) return;
+    ...
 });
 ```
 
