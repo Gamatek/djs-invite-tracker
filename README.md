@@ -128,7 +128,7 @@ client.login("BOT_TOKEN");
 * `inviteCreate` - (invite)
 * `inviteDelete` - (invite)
 
-## Different join invite types available
+## Different join types of invite available
 * `normal` - When a member joins using an invite and the package knows who invited the member (`invite` is available).
 * `vanity` - When a member joins using an invite with a custom URL (for example https://discord.gg/discord-api).
 * `permissions` - When a member joins but the bot doesn't have the `MANAGE_GUILD` permission.
