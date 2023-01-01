@@ -40,7 +40,6 @@ tracker.on("guildMemberAdd", (member, type, invite) => {
 });
 
 // More servers
-
 const exemptGuild = (guild) => guild.name.includes("nude"); // Servers that contain "nude" in their name will not be processed.
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
