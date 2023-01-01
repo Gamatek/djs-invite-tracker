@@ -122,13 +122,13 @@ client.on("ready", () => {
 client.login("BOT_TOKEN");
 ```
 
-## Event available
+## Events available
 * `cacheFetched` - (cache)
 * `guildMemberAdd` - (member, type, invite)
 * `inviteCreate` - (invite)
 * `inviteDelete` - (invite)
 
-## Different join types available:
+## Different join invite types available
 * `normal` - When a member joins using an invite and the package knows who invited the member (`invite` is available).
 * `vanity` - When a member joins using an invite with a custom URL (for example https://discord.gg/discord-api).
 * `permissions` - When a member joins but the bot doesn't have the `MANAGE_GUILD` permission.
