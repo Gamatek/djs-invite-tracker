@@ -39,7 +39,7 @@ class InvitesTracker extends EventEmitter {
             if(member.user.bot) {
                 this.emit("guildMemberAdd", member, "oauth", null);
             } else {
-                if(member.guild.me.permissions.has("MANAGE_GUILD")) {
+                if((member.guild.me || member.guild.members.me).permissions.has("MANAGE_GUILD")) {
                     member.guild.invites.fetch().then((currentInvites) => {
                         const inviteUsed = compareInvites(this.cache, currentInvites);
                         if(inviteUsed) {
@@ -61,10 +61,12 @@ class InvitesTracker extends EventEmitter {
 
         this.client.on("inviteCreate", (invite) => {
             this.cache.set(invite.code, mapInviteData(invite));
+            this.emit("inviteCreate", invite);
         });
 
         this.client.on("inviteDelete", (invite) => {
             this.cache.delete(invite.code);
+            this.emit("inviteDelete", invite);
         });
     };
 
