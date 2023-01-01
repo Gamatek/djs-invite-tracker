@@ -1,42 +1,20 @@
 # 📧 DiscordJS invite tracker
 
-Find the invitation that was used when a member joins a server. ⚠️ It only works with discord.js v13! You can also modify it to work with v12 or v14 etc...
-Inspired by the project [discord-invites-tracker](https://github.com/Androz2091/discord-invites-tracker), I coded an *invite tracker* more simply.
+Find the invitation that was used when a member joins a server.
+Inspired by the project [discord-invites-tracker](https://github.com/Androz2091/discord-invites-tracker).
+I coded an *invite tracker* more simply, compatible with Discord.JS version 13 and 14.
 
 ## Installation
 ```bash
 git clone https://github.com/Gamatek/djs-invite-tracker.git
 ```
 
-## Example
+## Example tracker
 ```js
-const { Client, Intents, WebhookClient } = require("discord.js");
-const inviteTracker = require("./inviteTracker");
-
 const guildId = "GUILD_ID";
-const webhook = {
-    id: "WEBHOOK_ID",
-    token: "WEBHOOK_TOKEN",
-    // or
-    url: "WEBHOOK_URL"
-};
 
 // Servers that contain "nude" in their name will not be processed
 const exemptGuild = (guild) => guild.name.includes("nude");
-
-const client = new Client({
-    intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MEMBERS,
-        Intents.FLAGS.GUILD_INVITES
-    ]
-});
-
-const tracker = new inviteTracker(client);
-
-tracker.on("cacheFechted", (cache) => {
-    console.log(`Cache fetched with ${cache.size} invites`);
-});
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
     if(member.guild.id !== guildId) return; // If you want with single server
@@ -59,6 +37,37 @@ tracker.on("guildMemberAdd", (member, type, invite) => {
         });
     };
 });
+```
+
+## Example with Discord.JS v13
+```js
+const { Client, Intents, WebhookClient } = require("discord.js");
+const inviteTracker = require("./inviteTracker");
+
+const webhook = {
+    id: "WEBHOOK_ID",
+    token: "WEBHOOK_TOKEN",
+    // or
+    url: "WEBHOOK_URL"
+};
+
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_INVITES
+    ]
+});
+
+const tracker = new inviteTracker(client);
+
+tracker.on("cacheFetched", (cache) => {
+    console.log(`Cache fetched with ${cache.size} invites`);
+});
+
+tracker.on("guildMemberAdd", (member, type, invite) => {
+    ...
+});
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}`);
@@ -66,6 +75,49 @@ client.on("ready", () => {
 
 client.login("BOT_TOKEN");
 ```
+
+## Example with Discord.JS v14
+```js
+const { Client, IntentsBitField, WebhookClient } = require("discord.js");
+const inviteTracker = require("./inviteTracker");
+
+const webhook = {
+    id: "WEBHOOK_ID",
+    token: "WEBHOOK_TOKEN",
+    // or
+    url: "WEBHOOK_URL"
+};
+
+const client = new Client({
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildInvites,
+        IntentsBitField.Flags.GuildMembers
+    ]
+});
+
+const tracker = new inviteTracker(client);
+
+tracker.on("cacheFetched", (cache) => {
+    console.log(`Cache fetched with ${cache.size} invites`);
+});
+
+tracker.on("guildMemberAdd", (member, type, invite) => {
+    ...
+});
+
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}`);
+});
+
+client.login("BOT_TOKEN");
+```
+
+## Event available
+* `cacheFetched` - (cache)
+* `guildMemberAdd` - (member, type, invite)
+* `inviteCreate` - (invite)
+* `inviteDelete` - (invite)
 
 ## Different join types available:
 * `normal` - When a member joins using an invite and the package knows who invited the member (`invite` is available).
