@@ -74,6 +74,18 @@ tracker.on("cacheFetched", (cache) => {
     console.log(`Cache fetched with ${cache.size} invites`);
 });
 
+tracker.on("inviteCreate", (invite) => {
+    new WebhookClient(webhook).send({
+        content: `<@${invite.inviterId}> has created a new invite. (\`${invite.code}\`)`
+    });
+});
+
+tracker.on("inviteDelete", (invite) => {
+    new WebhookClient(webhook).send({
+        content: `The invite \`${invite.code}\` has been deleted.`
+    });
+});
+
 tracker.on("guildMemberAdd", (member, type, invite) => {
     ...
 });
