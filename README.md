@@ -97,43 +97,6 @@ client.on("ready", () => {
 client.login("BOT_TOKEN");
 ```
 
-## Example with Discord.JS v14
-```js
-const { Client, IntentsBitField, WebhookClient } = require("discord.js");
-const inviteTracker = require("./inviteTracker");
-
-const webhook = {
-    id: "WEBHOOK_ID",
-    token: "WEBHOOK_TOKEN",
-    // or
-    url: "WEBHOOK_URL"
-};
-
-const client = new Client({
-    intents: [
-        IntentsBitField.Flags.Guilds,
-        IntentsBitField.Flags.GuildInvites,
-        IntentsBitField.Flags.GuildMembers
-    ]
-});
-
-const tracker = new inviteTracker(client);
-
-tracker.on("cacheFetched", (cache) => {
-    console.log(`Cache fetched with ${cache.size} invites`);
-});
-
-tracker.on("guildMemberAdd", (member, type, invite) => {
-    ...
-});
-
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`);
-});
-
-client.login("BOT_TOKEN");
-```
-
 ## Events available
 * `cacheFetched` - (cache)
 * `guildMemberAdd` - (member, type, invite)
