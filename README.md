@@ -82,7 +82,7 @@ tracker.on("inviteCreate", (invite) => {
 
 tracker.on("inviteDelete", (invite) => {
     new WebhookClient(webhook).send({
-        content: `The invite \`${invite.code}\` has been deleted.`
+        content: `The invite \`${invite.code}\` created by **${invite.inviter.tag}** has been deleted.`
     });
 });
 
