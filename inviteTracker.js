@@ -46,7 +46,7 @@ class InvitesTracker extends EventEmitter {
                             this.emit("guildMemberAdd", member, "normal", inviteUsed);
                             this.cache.set(inviteUsed.code, mapInviteData(inviteUsed));
                         } else {
-                            if(member.guild.features.includes("VANITY_URL")) {
+                            if(member.guild.features.includes("VANITY_URL") && member.guild.vanityURLCode) {
                                 this.emit("guildMemberAdd", member, "vanity", null);
                             } else {
                                 this.emit("guildMemberAdd", member, "unknown", null);
