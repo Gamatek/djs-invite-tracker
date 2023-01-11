@@ -24,7 +24,7 @@ const tracker = new inviteTracker(client, {
 tracker.on("guildMemberAdd", (member, type, invite) => {
     if(type === "normal") {
         new WebhookClient(webhook).send({
-            content: `<@${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
+            content: `${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
         });
     } else if(type === "vanity") {
         new WebhookClient(webhook).send({
@@ -69,14 +69,16 @@ tracker.on("cacheFetched", (cache) => {
 });
 
 tracker.on("inviteCreate", (invite) => {
+    const inviter = client.users.cache.get(invite.inviterId);
     new WebhookClient(webhook).send({
-        content: `<@${invite.inviterId}> has created a new invite. (\`${invite.code}\`)`
+        content: `**${inviter.tag}** has created a new invite. (\`${invite.code}\`)`
     });
 });
 
 tracker.on("inviteDelete", (invite) => {
+    const inviter = client.users.cache.get(invite.inviterId);
     new WebhookClient(webhook).send({
-        content: `The invite \`${invite.code}\` created by **${invite.inviter.tag}** has been deleted.`
+        content: `The invite \`${invite.code}\` created by **${inviter.tag}** has been deleted.`
     });
 });
 
