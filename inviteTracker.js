@@ -22,10 +22,14 @@ class InvitesTracker extends EventEmitter {
      * 
      * @param {Client} client 
      */
-    constructor(client) {
+    constructor(client, options) {
         super();
         this.client = client;
         this.cache = new Collection();
+        this.options = {
+            guildId: options?.guildId,
+            guildFilter: options?.guildFilter
+        };
 
         if(this.client.isReady()) {
             this.fetchCache();
@@ -36,6 +40,8 @@ class InvitesTracker extends EventEmitter {
         };
 
         this.client.on("guildMemberAdd", (member) => {
+            if(options?.guildId && options.guildId !== member.guild.id) return;
+            if(options?.guildFilter && options.guildFilter(member.guild)) return;
             if(member.user.bot) {
                 this.emit("guildMemberAdd", member, "oauth", null);
             } else {
@@ -60,11 +66,15 @@ class InvitesTracker extends EventEmitter {
         });
 
         this.client.on("inviteCreate", (invite) => {
+            if(options?.guildId && options.guildId !== invite.guild.id) return;
+            if(options?.guildFilter && options.guildFilter(invite.guild)) return;
             this.cache.set(invite.code, mapInviteData(invite));
             this.emit("inviteCreate", invite);
         });
 
         this.client.on("inviteDelete", (invite) => {
+            if(options?.guildId && options.guildId !== invite.guild.id) return;
+            if(options?.guildFilter && options.guildFilter(invite.guild)) return;
             this.cache.delete(invite.code);
             this.emit("inviteDelete", invite);
         });
