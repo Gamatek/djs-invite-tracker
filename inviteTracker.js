@@ -5,7 +5,9 @@ const mapInviteData = (invite) => {
     return {
         code: invite.code,
         uses: invite.uses,
-        maxUses: invite.maxUses
+        maxUses: invite.maxUses,
+        inviterId: invite.inviterId,
+        guildId: invite.guild.id
     };
 };
 
@@ -66,17 +68,19 @@ class InvitesTracker extends EventEmitter {
         });
 
         this.client.on("inviteCreate", (invite) => {
+            let data = mapInviteData(invite);
+            this.cache.set(invite.code, data);
             if(options?.guildId && options.guildId !== invite.guild.id) return;
             if(options?.guildFilter && options.guildFilter(invite.guild)) return;
-            this.cache.set(invite.code, mapInviteData(invite));
-            this.emit("inviteCreate", invite);
+            this.emit("inviteCreate", this.cache.get(invite.code));
         });
 
         this.client.on("inviteDelete", (invite) => {
+            let data = this.cache.get(invite.code);
+            this.cache.delete(invite.code);
             if(options?.guildId && options.guildId !== invite.guild.id) return;
             if(options?.guildFilter && options.guildFilter(invite.guild)) return;
-            this.cache.delete(invite.code);
-            this.emit("inviteDelete", invite);
+            this.emit("inviteDelete", data);
         });
     };
 
