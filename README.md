@@ -30,7 +30,7 @@ tracker.on("guildMemberAdd", (member, type, invite) => {
         new WebhookClient(webhook).send({
             content: `<@${member.id}> arrived using the personalized invitation.`
         });
-    } else if(type === "oauth") {
+    } else if(type === "bot") {
         new WebhookClient(webhook).send({
             content: `<@${member.id}> has been just added.`
         });
