@@ -103,5 +103,5 @@ client.login("BOT_TOKEN");
 * `normal` - When a member joins using an invite and the package knows who invited the member (`invite` is available).
 * `vanity` - When a member joins using an invite with a custom URL (for example https://discord.gg/discord-api).
 * `permissions` - When a member joins but the bot doesn't have the `MANAGE_GUILD` permission.
-* `oauth2` - When a bot joins.
+* `bot` - When a bot joins.
 * `unknown` - When a member joins but the bot doesn't know how they joined.
