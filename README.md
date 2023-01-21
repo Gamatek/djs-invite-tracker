@@ -23,8 +23,9 @@ const tracker = new inviteTracker(client, {
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
     if(type === "normal") {
+        const inviter = client.users.cache.get(invite.inviterId);
         new WebhookClient(webhook).send({
-            content: `${member.id}> has just joined. He was invited by **${invite.inviter.tag}**.`
+            content: `${member.id}> has just joined. He was invited by **${inviter.tag}**.`
         });
     } else if(type === "vanity") {
         new WebhookClient(webhook).send({
