@@ -18,7 +18,7 @@ const tracker = new inviteTracker(client, {
 
 // More servers
 const tracker = new inviteTracker(client, {
-    guildFilter: (guild) =>  guild.name.includes("nude"); // Servers that contain "nude" in their name will not be processed.
+    guildFilter: (guild) => guild.name.includes("nude"); // Servers that contain "nude" in their name will not be processed.
 });
 
 tracker.on("guildMemberAdd", (member, type, invite) => {
