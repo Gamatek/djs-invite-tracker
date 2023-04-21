@@ -47,7 +47,7 @@ class InvitesTracker extends EventEmitter {
             if(member.user.bot) {
                 this.emit("guildMemberAdd", member, "bot", null);
             } else {
-                if((member.guild.me || member.guild.members.me).permissions.has("MANAGE_GUILD")) {
+                if((member.guild.members?.me || member.guild.me).permissions.has("MANAGE_GUILD")) {
                     member.guild.invites.fetch().then((currentInvites) => {
                         const inviteUsed = compareInvites(this.cache, currentInvites);
                         if(inviteUsed) {
