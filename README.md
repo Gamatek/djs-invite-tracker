@@ -4,11 +4,6 @@ Find the invitation that was used when a member joins a server.
 Inspired by the project [discord-invites-tracker](https://github.com/Androz2091/discord-invites-tracker).
 I coded an *invite tracker* more simply, compatible with Discord.JS version 13 and 14.
 
-## Installation
-```bash
-git clone https://github.com/Gamatek/djs-invite-tracker.git
-```
-
 ## Example tracker
 ```js
 // Signle server
