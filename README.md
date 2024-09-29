@@ -1,72 +1,144 @@
-# 📧 Discord Invite Tracker
+# SQL Driver Library
 
-A powerful and efficient Discord.js invite tracking module that allows you to monitor and manage invites across your Discord servers.
+A lightweight, promise-based database driver library for Node.js, supporting MySQL and SQLite databases.
 
 ## Features
 
-- Track new members joining through specific invites
-- Monitor invite creation and deletion
-- Filter events by guild ID or custom guild filter
-- Handle vanity URLs and bot joins
-- Emit events for easy integration with your bot
+- Support for MySQL and SQLite databases
+- Promise-based API for asynchronous operations
+- Simple and intuitive API for creating and managing database connections
+- Support for common database operations (CREATE, READ, UPDATE, DELETE)
+- Built-in support for common data types (Text, Integer, BigInteger, Boolean, etc.)
+
+## Installation
+
+To install the library, run the following command:
+
+```bash
+npm install wave.sql
+```
 
 ## Usage
 
 ```js
-const { Client, GatewayIntentBits } = require("discord.js");
-const InviteTracker = require("wave.djs.invite-tracker");
+const { MySQLDriver, DataTypes, Clause, Order } = require("wave.sql");
 
-const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildInvites
-    ]
+// Create a new MySQL driver instance
+const driver = new MySQLDriver({
+    host: "localhost",
+    user: "username",
+    password: "password",
+    database: "database",
 });
 
-const tracker = new InviteTracker(client);
+// Create a new table
+const table = "my_table";
+const columns = [
+    new TableColumn("id", DataTypes.Integer, true),
+    new TableColumn("name", DataTypes.Text),
+    new TableColumn("age", DataTypes.Integer),
+    new TableColumn("email", DataTypes.Text),
+];
 
-tracker.on("guildMemberAdd", (member, type, invite) => {
-    if (type === "normal") {
-        console.log(`${member.user.tag} joined using invite code ${invite.code} from ${invite.inviter.tag}.`);
-    } else if (type === "vanity") {
-        console.log(`${member.user.tag} joined using the vanity invite link.`);
-    } else if (type === "bot") {
-        console.log(`${member.user.tag} was added to the server as a bot.`);
-    } else {
-        console.log(`${member.user.tag} joined, but I couldn't find what invite they used.`);
-    };
+driver.prepareTable(table, columns).then(() => {
+  console.log("Table created successfully!");
 });
 
-tracker.on("inviteCreate", (invite) => {
-    console.log(`New invite created: ${invite.code}`);
+// Insert a new row
+const data = { name: "John Doe", age: 30, email: "john.doe@example.com" };
+const clauses = [
+    new Clause("name").equal("John Doe"),
+    new Clause("age").greaterThan(25),
+];
+driver.setRows(table, data, clauses).then((rows) => {
+    console.log("Row inserted successfully!");
 });
 
-tracker.on("inviteDelete", (invite) => {
-    console.log(`Invite deleted: ${invite.code}`);
+// Retrieve all rows
+const keys = ["id", "name", "age"];
+const orderBy = [Order.Ascending("name"), Order.Descending("age")];
+const limit = 10;
+const offset = 5;
+driver.getRows(table, keys, clauses, orderBy, false, limit, offset).then((rows) => {
+    console.log(rows);
 });
 
-client.login("YOUR_BOT_TOKEN");
+// Count rows
+const column = "id";
+const distinct = true;
+driver.countRows(table, clauses, column, distinct).then((count) => {
+    console.log(count);
+});
+
+// Delete rows
+driver.deleteRows(table, clauses).then((affectedRows) => {
+    console.log(affectedRows);
+});
 ```
 
-## API
+## Drivers
 
-### `InviteTracker`
+### MySQL Driver
 
-#### Constructor
+```js
+const { MySQLDriver } = require("wave.sql");
 
-- `constructor(client, options)`: Create a new InviteTracker instance.
-- `options`:
-  - `guildId`: {String} - Track invites only for this specific guild
-  - `guildFilter`: {Function} - Custom filter function for guilds
+const sql = new MySQLDriver({
+    host: "localhost",
+    user: "username",
+    password: "password",
+    database: "database",
+});
+```
 
-## Events
+### Sqlite Driver
 
-- `guildMemberAdd`: Emitted when a new member joins a guild
-  - Parameters: `member`, `type` ("normal", "vanity", "bot", "unknown", "permissions"), `invite`
-- `inviteCreate`: Emitted when a new invite is created
-  - Parameters: `invite`
-- `inviteDelete`: Emitted when an invite is deleted
-  - Parameters: `invite`
-- `cacheFetched`: Emitted when the initial invite cache is fetched
-  - Parameters: `cache`
+
+```js
+const { SqliteDriver } = require("wave.sql");
+
+const sql = new SqliteDriver("my_database.sqlite");
+```
+
+## API Documentation
+
+### Classes
+
+- `MySQLDriver`: A MySQL-specific driver class, extending the Driver class.
+- `SqliteDriver`: A SQLite-specific driver class, extending the Driver class.
+- `TableColumn`: A class representing a table column, with properties for column name, data type, and primary key status.
+- `Clause`: A class representing a database query clause, with methods for building and executing queries.
+
+### Methods
+
+- `prepareTable(table, columns)`: Creates a new table with the specified columns.
+- `dropTable(table)`: Drops the specified table.
+- `getRows(table, keys, clauses, orderBy, first, limit, offset)`: Retrieves rows from the specified table, with optional filtering, sorting, and pagination.
+- `countRows(table, clauses, column, distinct)`: Counts the number of rows in the specified table, with optional filtering and distinct counting.
+- `setRows(table, data, clauses)`: Inserts or updates rows in the specified table, with optional filtering.
+- `deleteRows(table, clauses)`: Deletes rows from the specified table, with optional filtering.
+
+## Changelog
+
+### v1.0.0 (2024-08-19)
+
+- First public release of the library
+- Support for MySQL and SQLite
+- Basic functions for CRUD operations (Create, Read, Update, Delete)
+
+### v1.0.1 (2024-08-19)
+
+- Fix `Driver()`
+
+### v1.0.3 (2024-08-19)
+
+- Fix `prepareTable()`
+
+### v1.0.4 (2024-08-19)
+
+- Add `close()` in `MySQLDriver()` and `SqliteDriver()`
+
+### v1.0.5 (2024-08-27)
+
+- Fix `deleteRows()`
+- Fix `query()` in `SqliteDriver()`
