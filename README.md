@@ -14,7 +14,7 @@ A powerful and efficient Discord.js invite tracking module that allows you to mo
 
 ```js
 const { Client, GatewayIntentBits } = require("discord.js");
-const InviteTracker = require("wave.djs.invite-tracker");
+const InviteTracker = require("./InviteTracker");
 
 const client = new Client({
     intents: [
