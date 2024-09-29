@@ -1,0 +1,16 @@
+{
+    "name": "wave.djs.invite-tracker",
+    "version": "0.1.0",
+    "description": "Discord Invite Tracker",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "discord.js",
+        "invite",
+        "tracker"
+    ],
+    "author": "https://github.com/Gamatek",
+    "license": "ISC"
+}
